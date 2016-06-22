@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AndroidCodingPractice</string>
+    <string name="title_activity_rx_practice">RxPractice</string>
+</resources>
