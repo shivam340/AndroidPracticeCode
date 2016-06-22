@@ -213,6 +213,7 @@ public class UserActivity extends AppCompatActivity {
                     usingHotObservable();
                     usingRxAndroid();
                     usingMap();
+                    usingFlatMap();
                     break;
             }
         }
@@ -425,9 +426,6 @@ public class UserActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void usingMap(){
 
         // Observables emit any number of items to be processed
@@ -451,6 +449,50 @@ public class UserActivity extends AppCompatActivity {
             public Integer call(String s) {
                 Log.d(TAG, "call() called with: " + "s = [" + s + "]");
                 return s.length();
+            }
+        }).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                Log.d(TAG, "onNext() called with: " + "lenght is = [" + integer + "]");
+            }
+        });
+
+    }
+
+    private void usingFlatMap(){
+
+        // Observables emit any number of items to be processed
+        // The type of the item to be processed needs to be specified as a "generic type"
+        // In this case, the item type is `String`
+        Observable.create(
+                new Observable.OnSubscribe<String>() {
+                    @Override
+                    public void call(Subscriber<? super String> sub) {
+                        // "Emit" any data to the subscriber
+                        sub.onNext("Testing");
+                        sub.onNext("shivam");
+                        sub.onNext("shivam.gosavi@gmail.com");
+
+                        // Trigger the completion of the event
+                        sub.onCompleted();
+                    }
+                }
+        ).flatMap(new Func1<String, Observable<Integer>>() {
+            @Override
+            public Observable<Integer> call(String s) {
+
+                Log.d(TAG, "call() called with: " + "s = [" + s + "]");
+                return Observable.just(s.length());
             }
         }).subscribe(new Subscriber<Integer>() {
             @Override
