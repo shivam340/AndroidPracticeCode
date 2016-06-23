@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.codepractice.R;
+import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -144,6 +145,7 @@ public class RxPracticeActivity extends AppCompatActivity {
         timerButton = (Button) findViewById(R.id.timer);
         repeatButton = (Button) findViewById(R.id.repeat);
         intervalButton = (Button) findViewById(R.id.interval);
+        debounceButton = (Button) findViewById(R.id.debounce);
         subscriptionButton = (Button) findViewById(R.id.subscribe);
         hotObservableButton = (Button) findViewById(R.id.hot_observable);
 
@@ -153,6 +155,7 @@ public class RxPracticeActivity extends AppCompatActivity {
                 usingMap();
             }
         });
+
 
         flatMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +230,17 @@ public class RxPracticeActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        RxView.clicks(debounceButton).debounce(500, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Object>() {
+                    int count = 0;
+
+                    @Override
+                    public void call(Object o) {
+                        Log.d(TAG, "call: "+(++count));
+                    }
+                });
     }
 
     private boolean unsubscribe() {
