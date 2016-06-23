@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,7 +14,7 @@
 
 <LinearLayout
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent">
     <Button
         android:id="@+id/concat"
@@ -41,11 +41,56 @@
         android:text="map" />
 
     <Button
+        android:id="@+id/flatmap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="flatmap" />
+
+    <Button
         android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="timer" />
 
+    <Button
+        android:id="@+id/hot_observable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hot_observable" />
+
+
+    <Button
+        android:id="@+id/repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="repeat" />
+
+    <Button
+        android:id="@+id/interval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="interval" />
 
 </LinearLayout>
-</RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/subscribe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subscribe" />
+
+        <Button
+            android:id="@+id/debounce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Debounce" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

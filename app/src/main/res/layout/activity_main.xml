@@ -32,6 +32,12 @@
             android:layout_height="wrap_content"
             android:text="RxAndroid" />
 
+        <Button
+            android:id="@+id/rx_operators"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RxOp" />
+
 
     </LinearLayout>
 
