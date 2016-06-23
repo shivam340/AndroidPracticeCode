@@ -38,3 +38,9 @@ captures/
 
 # Keystore files
 *.jks
+.idea/*.*
+.idea/*
+.idea/misc.xml
+app/libs/
+app/src/main/java/com/example/codepractice/di/
+app/src/main/res/drawable/
