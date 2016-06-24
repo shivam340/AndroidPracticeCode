@@ -1,5 +1,6 @@
 package com.example.codepractice.home;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.codepractice.CodingApplication;
 import com.example.codepractice.R;
 import com.example.codepractice.rest.RestClient;
 import com.example.codepractice.storage.UserPreferences;
@@ -24,11 +26,14 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Observer;
 import rx.Scheduler;
@@ -52,9 +57,13 @@ public class UserActivity extends AppCompatActivity {
     private Button usingRxOperator;
     private Subscription subscription = null;
 
+    static Application application;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        application = getApplication();
+        ((CodingApplication) getApplicationContext()).getNetworkComponent().inject(this);
         setContentView(R.layout.activity_main);
         usingOkHttp = (Button) findViewById(R.id.ok_http);
         usingRetrofit = (Button) findViewById(R.id.retrofit);
@@ -109,7 +118,7 @@ public class UserActivity extends AppCompatActivity {
 
         private void usingRetrofit() {
 
-            RestClient restClient = new RestClient();
+            RestClient restClient = new RestClient(application);
             retrofit2.Call<List<UserModel>> call = restClient.getApiService().getUserDetail("shivam340");
             //Asynchronous execution
             call.enqueue(new retrofit2.Callback<List<UserModel>>() {
@@ -145,7 +154,7 @@ public class UserActivity extends AppCompatActivity {
         private void usingRxAndroid() {
 
 
-            RestClient restClient = new RestClient();
+            RestClient restClient = new RestClient(application);
 
         /*Only the original thread that created a view hierarchy can touch its views.
 
@@ -157,7 +166,7 @@ public class UserActivity extends AppCompatActivity {
 
 
             final Subscription subscription =
-                    restClient.getApiServiceForRx().getUserDetailUsingRx("shivam340")
+                    restClient.getApiServiceForRxUsingDagger().getUserDetailUsingRx("shivam340")
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<List<UserModel>>() {

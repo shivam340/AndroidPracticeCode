@@ -1,8 +1,14 @@
 package com.example.codepractice.rest;
 
 
+import android.app.Application;
+
+import com.example.codepractice.CodingApplication;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,21 +20,17 @@ public class RestClient {
 
     private String BASE_URL = "https://api.github.com/";
 
+    @Inject
+    @Named("non_rx")
+    Retrofit retrofitWithoutRx;
 
-    public GitApi getApiService() {
+    @Inject
+    @Named("for_rx")
+    Retrofit retrofitWithRx;
 
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        return retrofit.create(GitApi.class);
+    public RestClient(Application application){
+        ((CodingApplication) application).getNetworkComponent().inject(this);
     }
-
 
 
     public GitApiForRx getApiServiceForRx() {
@@ -52,4 +54,11 @@ public class RestClient {
         return retrofit.create(GitApiForRx.class);
     }
 
+    public GitApi getApiService() {
+        return retrofitWithoutRx.create(GitApi.class);
+    }
+
+    public GitApiForRx getApiServiceForRxUsingDagger() {
+        return retrofitWithRx.create(GitApiForRx.class);
+    }
 }
